@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "id": 1,
+      "title": "Winne the Pooh",
+      "author": "A. A. Milne"
+    }
+  ],
+  "pages": [
+    {
+      "id": 1,
+      "story-id": 1,
+      "pg#": 1,
+      "page-obj": {}
+    },
+    {
+      "id": 2,
+      "story-id": 1,
+      "pg#": 2,
+      "page-obj": {}
+    }
+  ],
+  "user-stories": [
+    {
+      "id": 1,
+      "title": "Winne the Pooh",
+      "pages": [
+        {
+          "audio": "",
+          "image": "https://secureservercdn.net/160.153.138.10/045.a80.myftpupload.com/wp-content/uploads/2017/02/winnie-the-pooh-story.jpg",
+          "text": "Winnie the Pooh lived with his friends in the Hundred–Acre Wood. One fine day, when Winnie the Pooh woke up, he realized the day was extremely windy. “I should visit my thinking spot,” decided the fluffy bear. And out of his bed, Winnie flew, quickly gathering his things and marching off to his thinking spot.  “What a blustery day today is,” he chuckled happily."
+        },
+        {
+          "audio": "",
+          "image": "",
+          "text": "As soon as Winnie reached his spot, he quickly sat down and tried to think of something. “Think, think,” Pooh whispered. So, Pooh thought and thought, but nothing came to mind. As little Pooh was busy thinking, Gopher, the beaver suddenly popped out of the ground. “If I were you, I would quickly go back home. It’s Windsday, you know?”"
+        }
+      ]
+    }
+  ]
+}

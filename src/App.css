@@ -1,38 +1,96 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: rgb(182, 182, 154);
+  height: 10vh;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header h1 {
+  font-size: 4.6vh;
+  opacity: 0.9;
+  top: 50%
+}
+
+.login {
+  position: absolute;
+  right: 1%;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.navigation li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0.5vw;
+  width: 7vw;
+  height: 1.3vw;
+  background-color: bisque;
+}
+
+.navigation a {
+  font-size: 1.9vh;
+  display: block;
+  width: 7vw;
+  height: 1.1vw;
+}
+
+.navigation li:hover {
+  background-color: rgb(173, 155, 133);
+}
+
+a:link {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.slides {
+  padding-top: 5%;
+  width: 900px;
+  height: 700px;
+}
+
+.home {
+  padding-top: 3vh;
+  width: 60vw;
+}
+
+.home h1 {
+  font-size: 40px;
+}
+
+.home p {
+  padding-top: 2%;
+  font-size: 20px;
+}
+
+.community {
+  padding-top: 3vh;
+}
+
+.community h1 {
+  font-size: 35px;
+}
+
+.community p {
+  padding-top: 2%;
+  font-size: 20px;
 }
