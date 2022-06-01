@@ -17,14 +17,23 @@ const jwtCheck = jwt({
 audience: 'testingauthapistuff',
 issuer: 'https://nextbeststory.us.auth0.com/',
 algorithms: ['RS256']
-});
+}).unless({path: ['/']})
+
+app.use(jwtCheck)
+
+const protected = [
+  {
+    test: 'test'
+  }
+]
+
 
 app.get('/', (req, res) => {
-  res.send('Hello from index route')
+  res.send('unprotected')
 })
 
 app.get('/protected', (req, res) => {
-  res.send('Hello from protected route')
+  res.send(protected)
 })
 
 app.listen(4000, () => console.log('Server on port 8000 '))

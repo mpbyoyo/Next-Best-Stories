@@ -6,24 +6,12 @@
       "author": "A. A. Milne"
     }
   ],
-  "pages": [
-    {
-      "id": 1,
-      "story-id": 1,
-      "pg#": 1,
-      "page-obj": {}
-    },
-    {
-      "id": 2,
-      "story-id": 1,
-      "pg#": 2,
-      "page-obj": {}
-    }
-  ],
-  "user-stories": [
+  "published-stories": [
     {
       "id": 1,
       "title": "Winne the Pooh",
+      "author": "A. A. Milne",
+      "narrator": "none",
       "pages": [
         {
           "audio": "",
