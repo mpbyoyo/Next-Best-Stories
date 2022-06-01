@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Header = ({setLoggedIn}) => {
-  const {loginWithRedirect, logout, user, isAuthenticated} = useAuth0()
-
+  const {loginWithRedirect, logout, user, isAuthenticated, getAccessTokenSilently} = useAuth0()
+  
   setLoggedIn(isAuthenticated)
 
   return (
@@ -13,12 +13,12 @@ const Header = ({setLoggedIn}) => {
       <div className="navigation">
         <nav>
           <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/community">Community</Link>
-            </li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/community">Community</Link>
+              </li>
             {isAuthenticated ? (
               <li>
                 <Link to="/storyslides">Story Slides</Link>

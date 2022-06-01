@@ -11,6 +11,10 @@ root.render(
       domain="nextbeststory.us.auth0.com"
       clientId='QTNoU881uIe0QBC7WX17Xbxns66QXdZk'
       redirectUri={window.location.origin}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+      audience='testingauthapistuff'
+      scope="open profile email"
     >
       <App />
     </Auth0Provider>
