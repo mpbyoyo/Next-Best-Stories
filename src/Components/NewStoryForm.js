@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from "react";
 import FadeIn from 'react-fade-in'
+import {storage} from '../base'
+import { ref, uploadBytesResumable } from "firebase/storage";
+import ImagePopup from "./ImagePopup";
 
 const NewStoryForm = ({user, selStory}) => {
+  const [imagePopup, setImagePopup] = useState(false)
+  const [addedImage, setAddedImage] = useState('')
   const [formData, setFormData] = useState({
     title: '',
     author: '',
-    pages: []
   })
 
   const [page, setPage] = useState({
@@ -35,6 +39,20 @@ useEffect(() => {
       ...formData,
       [e.target.name]: e.target.value
     })
+  }
+
+  const handleFile = (e) => {
+    if (!newTale || formData.title) {
+      const file = e.target.files[0]
+      const storageRef = ref(storage, `${user}/audio/${newTale ? formData.title : selStory.title}/${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file);
+    } else {
+      alert('Please add a title before uploading narration!')
+    }
+  }
+
+  const handleImage = (e) => {
+    setImagePopup(e.target.className)
   }
 
   const handleClick = () => {
@@ -71,6 +89,15 @@ useEffect(() => {
     }
   }
 
+  const keepImg = () => {
+    const thisImg = addedImage
+    return thisImg
+  }
+
+  const closeImgPopup = (v) => {
+    setImagePopup()
+  }
+
   return (
     <div className="new-story-form">
       <h1>{newTale ? 'Write and narrate your own story!' : `Narrate ${selStory.title}!`}</h1>
@@ -95,7 +122,9 @@ useEffect(() => {
             !newTale ? (
               <div key={i}>
                 <label htmlFor={`page${i+1}`}>{`Page ${i+1}:`}</label> <br />
-                <textarea name={`page${i+1}`} cols="30" rows="10" value={elem.text} readOnly></textarea> <img src={elem.image ? elem.image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'} /><br />
+                <textarea name={`page${i+1}`} cols="30" rows="10" value={elem.text} readOnly></textarea> 
+                <img src={elem.image ? elem.image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'} /><br />
+                <input className='file-uploader' type="file" onChange={handleFile}/> <br />
                 {!isRecording ? (
                   <div>
                     <div 
@@ -113,7 +142,10 @@ useEffect(() => {
             ) : (
               <div key={i}>
                 <label htmlFor={`page${i+1}`}>{`Page ${i+1}:`}</label> <br />
-                <textarea name={`page${i+1}`} cols="30" rows="10"></textarea> <br />
+                <textarea name={`page${i+1}`} cols="30" rows="10"></textarea>
+                <img className={i} src={addedImage ? keepImg() : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'} onClick={handleImage}/><br />
+                {imagePopup == i && <ImagePopup setAddedImage={setAddedImage} closeImgPopup={closeImgPopup}/>}
+                <input className='file-uploader' type="file" onChange={handleFile}/> <br />
               </div>
             )
           )

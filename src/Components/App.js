@@ -13,6 +13,7 @@ import WriteStories from './WriteStories';
 import NewStoryForm from './NewStoryForm'
 import FadeIn from 'react-fade-in/lib/FadeIn';
 
+
 function App() {
   const [userStories, setUserStories] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -70,7 +71,7 @@ function App() {
               <Route path="/stories" element={<Community stories={displayedStories} setSearchTerm={setSearchTerm}/>} />
               {loggedIn ? <Route path="/yourstories" element={<WriteStories setSelStory={setSelStory} />} /> : null}
               <Route path="/" element={<Home />} />
-              {loggedIn ? <Route path="/newstory" element={<NewStoryForm user={user} selStory={selStory} />}/> : null}
+              {loggedIn ? <Route path="/newstory" element={<NewStoryForm user={user} selStory={selStory} />} /> : null}
             </Routes>
           </FadeIn>
         </div>

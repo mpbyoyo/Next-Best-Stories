@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  transition: 10ms;
+  -webkit-transition: 10ms
 }
 
 .header {
@@ -112,6 +114,10 @@ a:visited {
   height: 90vh;
 }
 
+.file-uploader {
+  width: fit-content !important;
+}
+
 .new-story-form input {
   position: relative;
   width: 300px;
@@ -130,3 +136,4 @@ a:visited {
   width: 50px !important;
   height: 50px !important;
 }
+
