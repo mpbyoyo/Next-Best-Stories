@@ -7,7 +7,7 @@
 
 .header {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  background-color: rgb(182, 182, 154);
+  background-color: #51a78d;
   height: 10vh;
   width: 100vw;
   display: flex;
@@ -39,10 +39,12 @@
   width: 7vw;
   height: 1.3vw;
   background-color: bisque;
+  border-radius: 10px;
+  transition: 100ms;
 }
 
 .navigation a {
-  font-size: 1.9vh;
+  font-size: 19px;
   display: block;
   width: 7vw;
   height: 1.1vw;
@@ -50,6 +52,14 @@
 
 .navigation li:hover {
   background-color: rgb(173, 155, 133);
+}
+
+.navigation li:active {
+  background-color: rgb(122, 109, 94);
+}
+
+.navigation li.active {
+  background-color: #2786af;
 }
 
 a:link {
@@ -93,4 +103,30 @@ a:visited {
 .community p {
   padding-top: 2%;
   font-size: 20px;
+}
+
+.new-story-form {
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  height: 90vh;
+}
+
+.new-story-form input {
+  position: relative;
+  width: 300px;
+  right: 0%;
+  padding: 0.5%;
+  margin: 1.4%;
+}
+
+.new-story-form img {
+  width: 170px;
+  height: 170px;
+}
+
+.add-page {
+  cursor: pointer;
+  width: 50px !important;
+  height: 50px !important;
 }

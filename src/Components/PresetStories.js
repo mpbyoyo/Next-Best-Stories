@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Story from "./Story";
 
-const PresetStories = ({setSearchTerm, stories}) => {
+const PresetStories = ({setSearchTerm, stories, setSelStory}) => {
   const [search, setSearch] = useState('')
 
   const handleSubmit = (e) => {
@@ -19,7 +19,7 @@ const PresetStories = ({setSearchTerm, stories}) => {
           <input type="submit" />
         </form>
         {stories.map((story, i) => {
-          return <Story key={i} story={story}/>
+          return <Story key={i} story={story} setSelStory={setSelStory}/>
         })}
       </div>
     </div>

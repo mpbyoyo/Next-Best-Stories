@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import PresetStories from './PresetStories'
 import { Link } from 'react-router-dom'
+import FadeIn from 'react-fade-in/lib/FadeIn';
 
-const WriteStories = ({user}) => {
+const WriteStories = ({setSelStory}) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [storyOptions, setStoryOptions] = useState([])
 
@@ -13,14 +14,16 @@ const WriteStories = ({user}) => {
   }, [])
 
   const displayedStories = storyOptions.filter(elem => (
-    elem.title.includes(searchTerm) || elem.author.includes(searchTerm)
+    elem.title.toLowerCase().includes(searchTerm.toLowerCase()) || elem.author.toLowerCase().includes(searchTerm.toLowerCase())
   ))
 
   return (
-    <div className="write-stories">
-      <PresetStories stories={displayedStories} setSearchTerm={setSearchTerm} />
-      <Link to='/newstory'><button>Or Create Your Own Story!</button></Link>
-    </div>
+    <FadeIn>
+      <div className="write-stories">
+        <PresetStories stories={displayedStories} setSearchTerm={setSearchTerm} setSelStory={setSelStory} />
+        <Link to='/newstory'><button onClick={() => setSelStory('')}>Or Create Your Own Story!</button></Link>
+      </div>
+    </FadeIn>
   )
 }
 

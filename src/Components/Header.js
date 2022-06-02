@@ -1,11 +1,15 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
+import FadeIn from 'react-fade-in/lib/FadeIn';
 // import axios from 'axios'
 
 const Header = ({setLoggedIn, setUser}) => {
   const {loginWithRedirect, logout, user, isAuthenticated, /*getAccessTokenSilently*/} = useAuth0()
-  
+
+  const location = useLocation()
+
+
   setLoggedIn(isAuthenticated)
 
   if (isAuthenticated) {
@@ -32,35 +36,39 @@ const Header = ({setLoggedIn, setUser}) => {
   //   }
   // }
 
+  
   return (
-    <div className="header">
-      <h1>Next Best Stories</h1>
-      {/* <button onClick={callApi}>api</button>
-      <button onClick={callProtectedApi}>protected</button> */}
-      <div className="navigation">
-        <nav>
-          <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/community">Stories</Link>
-              </li>
-            {isAuthenticated ? (
-              <li>
-                <Link to="/yourstories">Publish Story</Link>
-              </li>
-            ) : (
-              null
-            )}
-          </ul>
-        </nav>
+    
+      <div className="header">
+        <FadeIn transitionDuration={200}>
+          <h1>Next Best Stories</h1>
+        </FadeIn>
+        {/* <button onClick={callApi}>api</button>
+        <button onClick={callProtectedApi}>protected</button> */}
+        <div className="navigation">
+          <nav>
+            <ul>
+                <li className={location.pathname == '/' ? 'active' : ''} >
+                  <div><Link to="/" name='home'>Home</Link></div>
+                </li>
+                <li className={location.pathname == '/stories'? 'active' : ''} >
+                  <div><Link to="/stories" name='stories'>Stories</Link></div>
+                </li>
+              {isAuthenticated ? (
+                <li className={location.pathname == '/yourstories'? 'active' : ''} >
+                  <div><Link to="/yourstories" name='yourstories'>Publish Story</Link></div>
+                </li>
+              ) : (
+                null
+              )}
+            </ul>
+          </nav>
+        </div>
+        <div className="login">
+          <div>{isAuthenticated ? `Welcome, ${user.nickname}!` : 'Welcome, Guest!'}</div>
+          {isAuthenticated ? <button onClick={logout}>Logout</button> : <button onClick={loginWithRedirect}>Login or Sign-up!</button> }
+        </div>
       </div>
-      <div className="login">
-        <div>{isAuthenticated ? `Welcome, ${user.nickname}!` : 'Welcome, Guest!'}</div>
-        {isAuthenticated ? <button onClick={logout}>Logout</button> : <button onClick={loginWithRedirect}>Login or Sign-up!</button> }
-      </div>
-    </div>
   )
 }
 
