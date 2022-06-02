@@ -1,14 +1,19 @@
 import React, {useState} from "react";
 import FadeIn from "react-fade-in/lib/FadeIn";
 
-const ImagePopup = ({setImagePopup, closeImgPopup}) => {
+const ImagePopup = ({i, setAddedImage, closeImgPopup}) => {
   const [url, setUrl] = useState('')
 
   const handleClick = (e) => {
     if (e.target.className === 'add-image') {
       if (validateUrl(url)) {
-        closeImgPopup(url)
-        setImagePopup(false)
+        setAddedImage(addedImage => (
+          {
+            ...addedImage,
+            [i]: url
+          }
+        ))
+        closeImgPopup(false)
         setUrl('')
         alert('Image added!')
       } else {
