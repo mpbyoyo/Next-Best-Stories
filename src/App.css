@@ -20,7 +20,6 @@
 .header h1 {
   font-size: 46px;
   opacity: 0.9;
-  top: 50%
 }
 
 .login {
@@ -38,6 +37,7 @@
   display: inline-block;
   list-style-type: none;
   margin: 9px;
+  margin-top: 0px;
   width: fit-content;
   height: 25px;
   background-color: bisque;
@@ -137,3 +137,11 @@ a:visited {
   height: 50px !important;
 }
 
+.not-slide-page {
+  padding: 20px;
+}
+
+.not-slide-page-img {
+  width: 500px;
+  height: 500px;
+}

@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Story from "./Story";
 import FadeIn from 'react-fade-in/lib/FadeIn';
 
-const Community = ({setSearchTerm, stories}) => {
+const Community = ({setSearchTerm, stories, updateDb}) => {
   const [search, setSearch] = useState('')
+  useEffect(() => updateDb(), [])
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()

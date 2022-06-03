@@ -6,7 +6,7 @@ import ImagePopup from "./ImagePopup";
 import Recording from './Recording';
 import { useNavigate } from "react-router-dom";
 
-const NewStoryForm = ({user, selStory}) => {
+const NewStoryForm = ({user, selStory, updateDb}) => {
   const [imagePopup, setImagePopup] = useState(false)
   const [addedImage, setAddedImage] = useState({})
   const [audioUrl, setAudioUrl] = useState({});
@@ -99,6 +99,7 @@ useEffect(() => {
         image: ''
       }])
       alert('Story submitted!')
+      updateDb()
       navigate('/stories')
     } else if (!newTale) {
       const narratedPages = pages.map((elem, i) => {
@@ -133,6 +134,7 @@ useEffect(() => {
         image: ''
       }])
       alert('Story submitted!')
+      updateDb()
       navigate('/stories')
     } else {
       alert('Please enter a title!')

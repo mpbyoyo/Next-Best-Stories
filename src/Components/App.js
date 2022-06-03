@@ -6,7 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import Header from './Header';
-import StorySlides from './StorySlides';
+import StoryNotSlides from './StoryNotSlides';
 import Home from './Home'
 import Community from './Community';
 import WriteStories from './WriteStories';
@@ -40,10 +40,13 @@ function App() {
         <div className='main'>
           <FadeIn>
             <Routes>
-              <Route path="/stories" element={<Community stories={displayedStories} setSearchTerm={setSearchTerm}/>} />
+              <Route path="/stories" element={<Community stories={displayedStories} setSearchTerm={setSearchTerm} updateDb={updateDb} />} />
               {loggedIn ? <Route path="/yourstories" element={<WriteStories setSelStory={setSelStory} />} /> : null}
               <Route path="/" element={<Home />} />
-              {loggedIn ? <Route path="/newstory" element={<NewStoryForm user={user} selStory={selStory} />} /> : null}
+              {loggedIn ? <Route path="/newstory" element={<NewStoryForm user={user} selStory={selStory} updateDb={updateDb}/>} /> : null}
+              {userStories.map((elem, i) => (
+                <Route key={i} path={`/readstory/${elem.id}`} element={<StoryNotSlides story={elem} />} />
+              ))}
             </Routes>
           </FadeIn>
         </div>
