@@ -35,6 +35,10 @@ const Community = ({setSearchTerm, stories}) => {
       </div>
     </FadeIn>
   )
+  // Maybe this is related to your note that creating your own
+  // story isn't a thing yet?:
+  // Story runs as: const Story = ({story, setSelStory})
+  // so do we need to include param of 'setSelStory' above?
 }
 
 export default Community
