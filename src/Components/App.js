@@ -33,38 +33,10 @@ function App() {
       elem.title.toLowerCase().includes(searchTerm.toLowerCase()) || elem.author.toLowerCase().includes(searchTerm.toLowerCase()) || elem.narrator.toLowerCase().includes(searchTerm.toLowerCase())
   ))
 
-  const test = () => {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(stream => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.start();
-
-        const audioChunks = [];
-        mediaRecorder.addEventListener("dataavailable", event => {
-          audioChunks.push(event.data);
-        });
-
-        mediaRecorder.addEventListener("stop", () => {
-          const audioBlob = new Blob(audioChunks);
-          console.log(audioChunks)
-          const audioUrl = URL.createObjectURL(audioBlob);
-          console.log(audioUrl)
-          const audio = new Audio(audioUrl);
-          console.log(audio)
-          audio.play();
-        });
-
-        setTimeout(() => {
-          mediaRecorder.stop();
-        }, 3000);
-      });
-  }
-
   return (
     <div className="App">
       <Router>
         <Header setLoggedIn={setLoggedIn} setUser={setUser}/>
-        <button onClick={test}> Testing audio recording</button>
         <div className='main'>
           <FadeIn>
             <Routes>
