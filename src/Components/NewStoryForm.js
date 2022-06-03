@@ -4,24 +4,27 @@ import {storage} from '../base'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import ImagePopup from "./ImagePopup";
 import Recording from './Recording';
+import { useNavigate } from "react-router-dom";
 
 const NewStoryForm = ({user, selStory}) => {
   const [imagePopup, setImagePopup] = useState(false)
   const [addedImage, setAddedImage] = useState({})
+  const [audioUrl, setAudioUrl] = useState({});
+  const [progresspercent, setProgresspercent] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
     author: '',
   })
 
-  const [disasterPages, setDisasterPages] = useState([])
-
-  const [page, setPage] = useState({
-    audio: '',
-    text: '',
-    image: ''
-  })
-
-  const [pages, setPages] = useState([1])
+  const [pages, setPages] = useState(
+    [
+      {
+        audio: '',
+        text: '',
+        image: '',
+      }
+    ]
+  )
 
   const newTale = !selStory
 
@@ -48,43 +51,66 @@ useEffect(() => {
 
   const handleClick = () => {
     console.log(selStory)
-    setPages([...pages, 1])
+    setPages([...pages, {
+      audio: '',
+      text: '',
+      image: ''
+    }])
   }
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    let refrence;
     if (newTale || formData.title) {
       const narratedPages = pages.map((elem, i) => {
-        const url = `https://firebasestorage.googleapis.com/v0/b/nbs-storage.appspot.com/o/${user}%2F${formData.title.replace(/\s+/g, '%20')}%2Faudio%2F${formData.title.replace(/\s+/g, '_')}_${i}.mp3?alt=media`
-        return ({
-          text: '',
-          image: '',
-          audio: url, 
-        }) 
+        return audioUrl[i] ? (
+          {
+            ...elem,
+            audio: audioUrl[i]
+          }
+        ) : (
+          elem
+        ) 
       })
 
-      console.log(formData)
       const newStory = {
         title: formData.title,
         author: formData.author,
         narrator: user,
-        pages: []
+        pages: narratedPages
       }
-      console.log(newStory)
-      console.log(newTale)
+
+      fetch('http://localhost:8000/published-stories', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newStory)
+      })
+    
       setFormData({
         title: '',
         author: '',
       })
+      setPages([{
+        audio: '',
+        text: '',
+        image: ''
+      }])
+      alert('Story submitted!')
+      navigate('/stories')
     } else if (!newTale) {
-      const narratedPages = pages.map( async (elem, i) => {
-        const audioRef = ref(storage, `${user}/${selStory.title}/audio/${selStory.title.replace(/\s+/g, '_')}_${i}.mp3`)
-        return await getDownloadURL(audioRef)
-          .then(url => url)
+      const narratedPages = pages.map((elem, i) => {
+        return audioUrl[i] ? (
+          {
+            ...elem,
+            audio: audioUrl[i]
+          }
+        ) : (
+          elem
+        ) 
       })
-
-      console.log(narratedPages)
 
       const newStory = {
         title: selStory.title,
@@ -93,7 +119,21 @@ useEffect(() => {
         pages: narratedPages
       }
 
-      console.log(newStory)
+      fetch('http://localhost:8000/published-stories', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newStory)
+      })
+
+      setPages([{
+        audio: '',
+        text: '',
+        image: ''
+      }])
+      alert('Story submitted!')
+      navigate('/stories')
     } else {
       alert('Please enter a title!')
     }
@@ -103,15 +143,50 @@ useEffect(() => {
     setImagePopup()
   }
 
-  const handleFile = (e) => {
+  const handleFile = (e, i) => {
     if (!newTale || formData.title) {
       const file = e.target.files[0]
       const storageRef = ref(storage, `${user}/${newTale ? formData.title : selStory.title}/audio/${file.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on("state_changed",
+        (snapshot) => {
+          const progress =
+            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent(progress);
+        },
+        (error) => {
+          alert(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setAudioUrl({
+              ...audioUrl,
+              [i]: downloadURL
+            })
+          });
+        }
+      )
       alert('Narration uploaded!')
     } else {
       alert('Please add a title before uploading narration!')
     }
+  }
+
+  const handleVarChange = (e, i) => {
+    const newPages = pages.map((elem, index) => {
+      return i == index ? (
+          {
+            audio: elem.audio,
+            text: e.target.value,
+            image: elem.image
+          }
+        ) : (
+          elem
+        )
+    })
+    console.log(newPages)
+    setPages(newPages)
   }
 
   return (
@@ -134,26 +209,26 @@ useEffect(() => {
         <label htmlFor="narrator">Narrator:</label><br />
         <input type="text" className="narrator" value={user} readOnly/> <br />
         <FadeIn>
-          {pages.map((elem, i) => (
-            !newTale ? (
+          {pages.map((elem, i) => {
+            return !newTale ? (
               <div key={i}>
                 <label htmlFor={`page${i+1}`}>{`Page ${i+1}:`}</label> <br />
                 <textarea name={`page${i+1}`} cols="30" rows="10" value={elem.text} readOnly></textarea> 
                 <img src={elem.image ? elem.image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'} /><br />
                 <Recording title={selStory.title.replace(/\s+/g, '_')} i={i} />
-                <input className='file-uploader' type="file" onChange={handleFile}/> <br />
+                <input className='file-uploader' type="file" onChange={(e) => handleFile(e, i)} /> <br />
               </div>
             ) : (
               <div key={i}>
                 <label htmlFor={`page${i+1}`}>{`Page ${i+1}:`}</label> <br />
-                <textarea name={`page${i+1}`} cols="30" rows="10"></textarea>
-                <img className={i} src={addedImage[i] ? addedImage[i] : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'} onClick={handleImage}/><br />
-                {imagePopup == i && <ImagePopup i={i} setAddedImage={setAddedImage} closeImgPopup={closeImgPopup}/>}
+                <textarea name={`page${i+1}`} className='text' cols="30" rows="10" value={pages[i].text} onChange={(e) => handleVarChange(e, i)}></textarea>
+                <img className={i} src={pages[i].image ? pages[i].image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'} onClick={handleImage}/><br />
+                {imagePopup == i && <ImagePopup i={i} pages={pages} setPages={setPages} closeImgPopup={closeImgPopup}/>}
                 <Recording title={formData.title.replace(/\s+/g, '_')} i={i} />
-                <input className='file-uploader' type="file" onChange={handleFile}/> <br />
+                <input className='file-uploader' type="file" onChange={(e) => handleFile(e, i)}/> <br />
               </div>
             )
-          )
+          }
           )} <br />
         </FadeIn>
         {newTale && <div><img 

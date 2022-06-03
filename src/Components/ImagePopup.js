@@ -1,18 +1,26 @@
 import React, {useState} from "react";
 import FadeIn from "react-fade-in/lib/FadeIn";
 
-const ImagePopup = ({i, setAddedImage, closeImgPopup}) => {
+const ImagePopup = ({i, pages, setPages, closeImgPopup}) => {
   const [url, setUrl] = useState('')
 
   const handleClick = (e) => {
     if (e.target.className === 'add-image') {
       if (validateUrl(url)) {
-        setAddedImage(addedImage => (
-          {
-            ...addedImage,
-            [i]: url
-          }
-        ))
+        const newPages = pages.map((elem, index) => {
+          return i == index ? (
+              {
+                audio: elem.audio,
+                text: elem.text,
+                image: url
+              }
+            ) : (
+              elem
+            )
+        })
+        console.log(newPages)
+        setPages(newPages)
+
         closeImgPopup(false)
         setUrl('')
         alert('Image added!')
