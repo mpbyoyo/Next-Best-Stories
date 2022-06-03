@@ -16,7 +16,7 @@ const Community = ({setSearchTerm, stories}) => {
       <div className="community">
         <FadeIn>
         <h1>See What People Have Uploaded!</h1>
-        <p>Come experince some of these amazing narrated short stories!</p>
+        <p>Come experience some of these amazing narrated short stories!</p>
         </FadeIn>
         <form onSubmit={handleSubmit}>
           <input 
