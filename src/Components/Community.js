@@ -16,7 +16,7 @@ const Community = ({setSearchTerm, stories}) => {
       <div className="community">
         <FadeIn>
         <h1>See What People Have Uploaded!</h1>
-        <p>Come experince some of these amazing narrated short stories!</p>
+        <p>Come experience some of these amazing narrated short stories!</p>
         </FadeIn>
         <form onSubmit={handleSubmit}>
           <input 
@@ -35,6 +35,10 @@ const Community = ({setSearchTerm, stories}) => {
       </div>
     </FadeIn>
   )
+  // Maybe this is related to your note that creating your own
+  // story isn't a thing yet?:
+  // Story runs as: const Story = ({story, setSelStory})
+  // so do we need to include param of 'setSelStory' above?
 }
 
 export default Community
